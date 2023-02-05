@@ -3,20 +3,25 @@ const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const multer = require('multer')
+const userRoutes = require('./Routes/user.route')
 require('dotenv').config()
+require('./db/connect')
 
 
-
-app.use(multer().none())
+const upload = multer()
+app.use(upload.none())
 app.use(cors())
 app.use(express.static('public'))
+
+
+app.use('/api/users', userRoutes)
+
+
 app.get('/', (req, res) => {
+  console.log(req.username)
   res.sendFile(__dirname + '/views/index.html')
 });
 
-app.post("/api/users", (req, res) => {
-  console.log(req.body.name);
-})
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
