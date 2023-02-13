@@ -11,6 +11,7 @@ require('./db/connect')
 const upload = multer()
 app.use(upload.none())
 app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
 
@@ -18,7 +19,6 @@ app.use('/api/users', userRoutes)
 
 
 app.get('/', (req, res) => {
-  console.log(req.username)
   res.sendFile(__dirname + '/views/index.html')
 });
 
